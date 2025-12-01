@@ -4,6 +4,7 @@
 
 import { greet } from '@/myndstream';
 
+
 describe('greet', () => {
   it('returns a greeting provided a name', () => {
     expect(greet('Alice')).toBe('Hello, Alice!');
