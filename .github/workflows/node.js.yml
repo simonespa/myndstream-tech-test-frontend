@@ -1,9 +1,5 @@
 name: Node.js CI
 
-permissions:
-  contents: read
-  pull-requests: write
-
 on:
   push:
     branches: [ "main" ]
@@ -24,7 +20,7 @@ jobs:
         node-version: [24.x, 26.x]
 
     steps:
-    - name: Checkout repository
+      - name: Checkout repository
         uses: actions/checkout@v4
       - name: Install pnpm
         uses: pnpm/action-setup@v4
@@ -33,7 +29,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: "pnpm"
-    - run: pnpm install
-    - run: pnpm lint
-    - run: pnpm test
-    - run: pnpm build # runs also type checking
+      - run: pnpm install
+      - run: pnpm lint
+      - run: pnpm test
+      - run: pnpm build # runs also type checking
