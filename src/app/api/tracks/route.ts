@@ -11,9 +11,15 @@ export async function GET() {
       headers: HEADERS,
     });
   } catch (error: Error | unknown) {
+    if (error instanceof Error) {
+      console.error("Error in GET /api/tracks:", error.stack || error.message);
+    } else {
+      console.error("Unknown error in GET /api/tracks:", error);
+    }
+
     return new Response(
       JSON.stringify({
-        error: error instanceof Error ? error.message : String(error),
+        error: "Failed to fetch tracks metadata",
       }),
       {
         status: 500,
