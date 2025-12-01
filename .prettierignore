@@ -1,4 +1,5 @@
 # Ignore artifacts:
+.husky
 .next
 .swc
 coverage
