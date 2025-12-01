@@ -4,7 +4,7 @@
 
 export function greet(name: string): string {
   if (!name) {
-    return 'Hello, who are you?';
+    return "Hello, who are you?";
   }
 
   return `Hello, ${name.trim()}!`;
