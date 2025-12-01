@@ -1,0 +1,15 @@
+# Ignore artifacts:
+.husky
+.next
+.swc
+coverage
+node_modules
+public
+out
+.gitattribute
+.gitignore
+.prettierignore
+LICENSE
+next-env.d.ts
+README.md
+task.md

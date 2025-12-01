@@ -8,7 +8,7 @@ import nextJest from "next/jest.js";
 
 const createJestConfig = nextJest({
   // Provide the path to your Next.js app to load next.config.js and .env files in your test environment
-  dir: './',
+  dir: "./",
 });
 
 // Add any custom config to be passed to Jest
@@ -41,7 +41,7 @@ const config: Config = {
 
   // Indicates which provider should be used to instrument code for coverage
   // coverageProvider: "babel",
-  coverageProvider: 'v8',
+  coverageProvider: "v8",
 
   // A list of reporter names that Jest uses when writing coverage reports
   // coverageReporters: [
@@ -50,9 +50,7 @@ const config: Config = {
   //   "lcov",
   //   "clover"
   // ],
-  coverageReporters: [
-    "html-spa"
-  ],
+  coverageReporters: ["html-spa"],
 
   // An object that configures minimum threshold enforcement for coverage results
   // coverageThreshold: undefined,
@@ -160,7 +158,7 @@ const config: Config = {
 
   // The test environment that will be used for testing
   // testEnvironment: "jest-environment-node",
-  testEnvironment: 'jsdom',
+  testEnvironment: "jsdom",
 
   // Options that will be passed to the testEnvironment
   // testEnvironmentOptions: {},

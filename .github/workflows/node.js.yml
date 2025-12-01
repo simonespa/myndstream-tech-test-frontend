@@ -2,7 +2,7 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
     paths:
       - src/**/*
   pull_request:
@@ -12,7 +12,6 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     strategy:
@@ -30,6 +29,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: "pnpm"
       - run: pnpm install
-      - run: pnpm lint
+      - run: pnpm lint:check
+      - run: pnpm format:check
       - run: pnpm test
-      - run: pnpm build # runs also type checking
+      - run: pnpm build # runs typescript check and builds the app
