@@ -56,4 +56,6 @@ const datastore: TrackMetadata[] = [
   },
 ];
 
-export default datastore;
+export function loadDatastore(): TrackMetadata[] {
+  return datastore;
+}
