@@ -85,9 +85,8 @@ export default function Player({ tracks }: ComponentProp) {
     });
 
     if (progress === 0) {
-      milestonesRef.current.clear();
+      milestonesRef.current.delete(0);
     } else if (progress == 100) {
-      milestonesRef.current = new Set(progressMilestones);
       milestonesRef.current.delete(100);
     }
   };
