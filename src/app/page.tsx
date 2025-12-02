@@ -3,5 +3,7 @@
 import Player from "@/components/Player";
 
 export default function Home() {
-  return <Player src="/songb.mp3" />;
+  const tracks = ["/songa.mp3", "/songb.mp3"];
+
+  return <Player tracks={tracks} />;
 }
