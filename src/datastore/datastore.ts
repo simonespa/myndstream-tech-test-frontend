@@ -20,6 +20,7 @@ export interface License {
 export interface TrackMetadata {
   id: string;
   url: string;
+  image: string;
   title: string;
   artist: Artist;
   license: License;
@@ -29,6 +30,7 @@ const datastore: TrackMetadata[] = [
   {
     id: "songa",
     url: "/songa.mp3",
+    image: "/songa.jpg",
     title: "Purple Dream",
     artist: {
       name: "Ghostrifter",
@@ -43,6 +45,7 @@ const datastore: TrackMetadata[] = [
   {
     id: "songb",
     url: "/songb.mp3",
+    image: "/songb.jpg",
     title: "Heart Of The Ocean",
     artist: {
       name: "Purrple Cat",

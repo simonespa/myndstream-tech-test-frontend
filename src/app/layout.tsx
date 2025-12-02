@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     siteName: "Myndstream",
     images: [
       {
-        url: "https://myndstream.com/wp-content/uploads/2025/06/ipad-2025-new.webp",
+        url: "/myndstream.webp",
         width: 1089,
         height: 955,
         type: "image/webp",
@@ -46,9 +46,7 @@ export const metadata: Metadata = {
     title,
     description,
     site: "@myndstreammusic",
-    images: [
-      "https://myndstream.com/wp-content/uploads/2025/06/ipad-2025-new.webp",
-    ],
+    images: ["/myndstream.webp"],
   },
 };
 
