@@ -49,12 +49,15 @@ export default function Player({ tracks, userId }: ComponentProp) {
       // Log only if we have reached the % milestone AND it hasn't been logged yet
       if (progress >= milestone && !milestonesRef.current.has(milestone)) {
         const eventKey = `Progress${milestone}` as keyof typeof EventType;
-        sendEvent({
+        const event = {
           userId,
           trackId: audio.dataset.trackId as string,
           timestamp: Date.now(),
           eventType: EventType[eventKey],
-        });
+        };
+        sendEvent(event);
+        sendEvent(event);
+        sendEvent(event);
         milestonesRef.current.add(milestone);
       }
     });
