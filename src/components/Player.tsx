@@ -1,6 +1,8 @@
 "use client";
 
 import { useRef } from "react";
+import { sendEvent } from "activities";
+import { EventType } from "Events";
 
 interface ComponentProp {
   tracks: Array<string>;
@@ -41,7 +43,13 @@ export default function Player({ tracks }: ComponentProp) {
     progressMilestones.forEach((milestone) => {
       // Log only if we have reached the % milestone AND it hasn't been logged yet
       if (progress >= milestone && !milestonesRef.current.has(milestone)) {
-        console.log(`${audioRef.current?.src}: ${milestone}% progress`);
+        if (milestone === 0) {
+          console.log(`${audioRef.current?.src}: track-started`);
+        } else if (milestone === 100) {
+          console.log(`${audioRef.current?.src}: track-ended`);
+        } else {
+          console.log(`${audioRef.current?.src}: ${milestone}%-progress`);
+        }
         milestonesRef.current.add(milestone);
       }
     });
@@ -117,14 +125,20 @@ export default function Player({ tracks }: ComponentProp) {
 
   const handlePlay = () => {
     const audio: HTMLAudioElement | null = audioRef.current;
-    if (audio) {
-      console.log(`${audio.src} play at ${audio.currentTime} seconds`);
+    if (audio && audio.currentTime > 0) {
+      sendEvent({
+        userId: "user1",
+        trackId: audio.src,
+        timestamp: Date.now(),
+        eventType: EventType.Play,
+        trackTime: audio.currentTime,
+      });
     }
   };
 
   const handlePause = () => {
     const audio: HTMLAudioElement | null = audioRef.current;
-    if (audio) {
+    if (audio && audio.currentTime < audio.duration) {
       console.log(`${audio.src} pause at ${audio.currentTime} seconds`);
     }
   };
