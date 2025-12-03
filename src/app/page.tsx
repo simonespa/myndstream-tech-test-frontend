@@ -1,7 +1,7 @@
 "use client";
 
 import Player from "@/components/Player";
-import { TrackMetadata } from "@/datastore/datastore";
+import { TrackMetadata } from "@/datastore/db";
 import useSWR from "swr";
 import fetcher from "@/fetcher";
 

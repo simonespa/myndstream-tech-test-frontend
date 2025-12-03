@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import { sendEvent } from "@/activities";
 import { EventType } from "@/events";
-import type { TrackMetadata } from "@/datastore/datastore";
+import type { TrackMetadata } from "@/datastore/db";
 
 interface ComponentProp {
   tracks: Array<{
@@ -49,15 +49,12 @@ export default function Player({ tracks, userId }: ComponentProp) {
       // Log only if we have reached the % milestone AND it hasn't been logged yet
       if (progress >= milestone && !milestonesRef.current.has(milestone)) {
         const eventKey = `Progress${milestone}` as keyof typeof EventType;
-        const event = {
+        sendEvent({
           userId,
           trackId: audio.dataset.trackId as string,
           timestamp: Date.now(),
           eventType: EventType[eventKey],
-        };
-        sendEvent(event);
-        sendEvent(event);
-        sendEvent(event);
+        });
         milestonesRef.current.add(milestone);
       }
     });
