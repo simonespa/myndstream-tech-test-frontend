@@ -1,4 +1,4 @@
-import type { Event } from "@/analytics";
+import type { Event } from "@/shared-types";
 
 /**
  * This wrapper function seems unnecessary given is as big

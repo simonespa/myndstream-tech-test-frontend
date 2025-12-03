@@ -2,14 +2,12 @@
 
 import { useRef } from "react";
 import { sendEvent } from "@/activities";
-import { EventType } from "@/analytics";
-import type { TrackMetadata } from "@/datastore/db";
+import { EventType } from "@/shared-types";
+import Image from "next/image";
+import type { Track } from "@/shared-types";
 
 interface ComponentProp {
-  tracks: Array<{
-    id: TrackMetadata["id"];
-    url: TrackMetadata["url"];
-  }>;
+  tracks: Array<Track>;
   userId: string;
 }
 
@@ -159,8 +157,32 @@ export default function Player({ tracks, userId }: ComponentProp) {
   const atLeastOneElement = tracks && tracks.length > 0;
 
   return (
-    <div className="p-4 border rounded shadow-md">
+    <div className="md:w-1/2 flex flex-col items-center justify-center gap-4">
+      <Image
+        id="track-image"
+        src={atLeastOneElement ? tracks[0].image : "/globe.svg"}
+        width={500}
+        height={500}
+        alt=""
+        className="w-40 h-40 rounded-lg object-cover shadow-md"
+      />
+
+      {atLeastOneElement ? (
+        <div className="text-center">
+          <div id="track-title" className="text-lg font-semibold">
+            {tracks[0].title}
+          </div>
+          <div
+            id="track-artist"
+            className="text-sm text-gray-500 dark:text-gray-400"
+          >
+            {tracks[0].artist}
+          </div>
+        </div>
+      ) : null}
+
       <audio
+        id="player-audio"
         src={atLeastOneElement ? tracks[0].url : undefined}
         data-track-id={atLeastOneElement ? tracks[0].id : undefined}
         ref={audioRef}

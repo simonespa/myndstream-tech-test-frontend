@@ -8,7 +8,7 @@ const eventSchema = {
   properties: {
     trackId: { type: "string" },
     userId: { type: "string" },
-    timestamp: { type: "integer", maxLength: 15 },
+    timestamp: { type: "integer" },
     eventType: {
       type: "string",
       pattern: "^play|pause|progress-0|progress-25|progress-75|progress-100$",

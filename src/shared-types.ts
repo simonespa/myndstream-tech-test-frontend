@@ -39,3 +39,14 @@ export interface Event {
   eventType: EventType;
   trackTime?: number; // current time in seconds at the time of the event
 }
+
+/**
+ * The properties to be visualised on the page
+ */
+export interface Track {
+  id: string;
+  url: string;
+  image: string;
+  title: string;
+  artist: string;
+}
