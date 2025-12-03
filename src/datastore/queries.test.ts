@@ -1,8 +1,8 @@
 import {
   findAllTrackMetadata,
   findTrackMetadataById,
-} from "@/datastore/services";
-import { loadDatastore } from "@/datastore/datastore";
+} from "@/datastore/queries";
+import { loadDatastore } from "@/datastore/db";
 
 interface MockedTrackMetadata {
   id: string;
@@ -17,7 +17,7 @@ const response: MockedTrackMetadata[] = [
 
 const emptyResponse: MockedTrackMetadata[] = [];
 
-jest.mock("@/datastore/datastore");
+jest.mock("@/datastore/db");
 
 describe("services", () => {
   beforeEach(() => {

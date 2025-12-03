@@ -1,4 +1,4 @@
-import { findAllTrackMetadata } from "@/datastore/services";
+import { findAllTrackMetadata } from "@/datastore/queries";
 
 const HEADERS = { "Content-Type": "application/json" };
 

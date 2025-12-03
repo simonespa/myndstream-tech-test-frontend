@@ -1,9 +1,30 @@
 "use client";
 
 import Player from "@/components/Player";
+import { TrackMetadata } from "@/datastore/db";
+import useSWR from "swr";
+import fetcher from "@/fetcher";
+
+interface Track {
+  id: TrackMetadata["id"];
+  url: TrackMetadata["url"];
+}
 
 export default function Home() {
-  const tracks = ["/songa.mp3", "/songb.mp3"];
+  const { data, error } = useSWR("/api/tracks", fetcher);
 
-  return <Player tracks={tracks} />;
+  if (error) return "An error has occurred.";
+
+  let tracks: Track[] = [];
+
+  if (Array.isArray(data)) {
+    tracks = (data as TrackMetadata[]).map((track: TrackMetadata) => {
+      return {
+        id: track.id,
+        url: track.url,
+      };
+    });
+  }
+
+  return <Player tracks={tracks} userId="monsai" />;
 }

@@ -2,8 +2,8 @@
  * Service to retrieve audio track metadata from the mock datastore.
  */
 
-import type { TrackMetadata } from "@/datastore/datastore";
-import { loadDatastore } from "@/datastore/datastore";
+import type { TrackMetadata } from "@/datastore/db";
+import { loadDatastore } from "@/datastore/db";
 
 /**
  * Return metadata for all audio tracks.

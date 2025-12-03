@@ -1,5 +1,5 @@
 import { NextRequest } from "next/server";
-import { findTrackMetadataById } from "@/datastore/services";
+import { findTrackMetadataById } from "@/datastore/queries";
 
 const HEADERS = { "Content-Type": "application/json" };
 
