@@ -1,11 +1,16 @@
 "use client";
 
 import { useRef } from "react";
-import { sendEvent } from "activities";
-import { EventType } from "Events";
+import { sendEvent } from "@/activities";
+import { EventType } from "@/events";
+import type { TrackMetadata } from "@/datastore/datastore";
 
 interface ComponentProp {
-  tracks: Array<string>;
+  tracks: Array<{
+    id: TrackMetadata["id"];
+    url: TrackMetadata["url"];
+  }>;
+  userId: string;
 }
 
 /**
@@ -14,7 +19,7 @@ interface ComponentProp {
  * @param tracks list of track sources to pass to the "src" property of the player
  * @returns the player component
  */
-export default function Player({ tracks }: ComponentProp) {
+export default function Player({ tracks, userId }: ComponentProp) {
   // Reference to the audio element
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
@@ -43,13 +48,13 @@ export default function Player({ tracks }: ComponentProp) {
     progressMilestones.forEach((milestone) => {
       // Log only if we have reached the % milestone AND it hasn't been logged yet
       if (progress >= milestone && !milestonesRef.current.has(milestone)) {
-        if (milestone === 0) {
-          console.log(`${audioRef.current?.src}: track-started`);
-        } else if (milestone === 100) {
-          console.log(`${audioRef.current?.src}: track-ended`);
-        } else {
-          console.log(`${audioRef.current?.src}: ${milestone}%-progress`);
-        }
+        const eventKey = `Progress${milestone}` as keyof typeof EventType;
+        sendEvent({
+          userId,
+          trackId: audio.dataset.trackId as string,
+          timestamp: Date.now(),
+          eventType: EventType[eventKey],
+        });
         milestonesRef.current.add(milestone);
       }
     });
@@ -109,9 +114,9 @@ export default function Player({ tracks }: ComponentProp) {
     const currentSrc = audio.src || "";
 
     // Try to find the current track in the list (match by src)
-    const currentIndex = tracks.findIndex((src) => {
+    const currentIndex = tracks.findIndex((track) => {
       try {
-        return currentSrc.endsWith(src);
+        return currentSrc.endsWith(track.url);
       } catch {
         return false;
       }
@@ -119,7 +124,8 @@ export default function Player({ tracks }: ComponentProp) {
 
     // If not found, start from the first track; otherwise advance to the next (wrap around)
     const nextIndex = currentIndex < 0 ? 0 : (currentIndex + 1) % tracks.length;
-    audio.src = tracks[nextIndex];
+    audio.src = tracks[nextIndex].url;
+    audio.dataset.trackId = tracks[nextIndex].id;
     audio.play();
   };
 
@@ -127,8 +133,8 @@ export default function Player({ tracks }: ComponentProp) {
     const audio: HTMLAudioElement | null = audioRef.current;
     if (audio && audio.currentTime > 0) {
       sendEvent({
-        userId: "user1",
-        trackId: audio.src,
+        userId,
+        trackId: audio.dataset.trackId as string,
         timestamp: Date.now(),
         eventType: EventType.Play,
         trackTime: audio.currentTime,
@@ -139,14 +145,24 @@ export default function Player({ tracks }: ComponentProp) {
   const handlePause = () => {
     const audio: HTMLAudioElement | null = audioRef.current;
     if (audio && audio.currentTime < audio.duration) {
-      console.log(`${audio.src} pause at ${audio.currentTime} seconds`);
+      sendEvent({
+        userId,
+        trackId: audio.dataset.trackId as string,
+        timestamp: Date.now(),
+        eventType: EventType.Pause,
+        trackTime: audio.currentTime,
+      });
     }
   };
+
+  // The tracks are streamed client side
+  const atLeastOneElement = tracks && tracks.length > 0;
 
   return (
     <div className="p-4 border rounded shadow-md">
       <audio
-        src={tracks[0]}
+        src={atLeastOneElement ? tracks[0].url : undefined}
+        data-track-id={atLeastOneElement ? tracks[0].id : undefined}
         ref={audioRef}
         controls
         onPlay={handlePlay}
