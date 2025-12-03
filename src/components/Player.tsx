@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import { sendEvent } from "@/activities";
-import { EventType } from "@/events";
+import { EventType } from "@/analytics";
 import type { TrackMetadata } from "@/datastore/db";
 
 interface ComponentProp {

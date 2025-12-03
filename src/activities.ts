@@ -1,4 +1,4 @@
-import type { Event } from "@/events";
+import type { Event } from "@/analytics";
 
 /**
  * This wrapper function seems unnecessary given is as big
