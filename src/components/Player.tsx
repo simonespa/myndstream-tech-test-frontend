@@ -178,13 +178,13 @@ export default function Player({
       {atLeastOneElement ? (
         <div className="text-center">
           <div id="track-title" className="text-lg font-semibold">
-            {currentTrack.title}
+            {currentTrack?.title}
           </div>
           <div
             id="track-artist"
             className="text-sm text-gray-500 dark:text-gray-400"
           >
-            {currentTrack.artist}
+            {currentTrack?.artist}
           </div>
         </div>
       ) : null}
