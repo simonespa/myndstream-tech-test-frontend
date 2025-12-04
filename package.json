@@ -10,9 +10,11 @@
     "lint:check": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "prepare": "husky"
+    "test": "jest src",
+    "test:watch": "jest --watch src",
+    "playwright": "playwright test",
+    "playwright:show": "playwright show-report",
+    "prepare": "husky && playwright install --with-deps"
   },
   "keywords": [],
   "author": {
@@ -32,6 +34,7 @@
     "swr": "^2.3.7"
   },
   "devDependencies": {
+    "@playwright/test": "^1.57.0",
     "@tailwindcss/postcss": "^4",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.9.1",
