@@ -1,14 +1,19 @@
 name: Node.js CI
 
+permissions:
+  contents: read
+
 on:
   push:
     branches: ["main"]
     paths:
       - src/**/*
+      - tests/**/*
   pull_request:
     branches: ["main"]
     paths:
       - src/**/*
+      - tests/**/*
 
 jobs:
   build:
