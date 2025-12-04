@@ -15,6 +15,7 @@ const eslintConfig = defineConfig([
     ".swc/**",
     "coverage/**",
     "node_modules/**",
+    "playwright-report/**",
     "public/**",
     "next-env.d.ts",
   ]),
