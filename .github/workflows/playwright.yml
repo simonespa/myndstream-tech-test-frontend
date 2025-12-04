@@ -38,7 +38,8 @@ jobs:
         run: pnpm install
       - name: Run Playwright tests
         run: pnpm playwright
-      - uses: actions/upload-artifact@v4
+      - name: Upload Playwright report
+        uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
           name: playwright-report

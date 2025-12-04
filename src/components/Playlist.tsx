@@ -15,7 +15,7 @@ export default function Playlist({
 }: ComponentProp) {
   const handleClick = (event: React.MouseEvent<HTMLLIElement>) => {
     const index = tracks.findIndex(
-      (track) => track.id === event.currentTarget.id,
+      (track) => event.currentTarget.id === `track-${track.id}`,
     );
     if (index === -1) return;
 
@@ -38,7 +38,7 @@ export default function Playlist({
         {tracks.map((track) => (
           <li
             key={track.id}
-            id={track.id}
+            id={`track-${track.id}`}
             onClick={handleClick}
             className="song-item flex items-center gap-3 p-3 rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700"
           >
@@ -51,8 +51,13 @@ export default function Playlist({
               className="w-14 h-14 rounded-md object-cover"
             />
             <div className="flex-1">
-              <div className="font-medium">{track.title}</div>
-              <div className="text-sm text-gray-500 dark:text-gray-400">
+              <div id={`track-title-${track.id}`} className="font-medium">
+                {track.title}
+              </div>
+              <div
+                id={`track-artist-${track.id}`}
+                className="text-sm text-gray-500 dark:text-gray-400"
+              >
                 {track.artist}
               </div>
             </div>
