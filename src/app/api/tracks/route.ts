@@ -1,6 +1,17 @@
 import { findAllTrackMetadata } from "@/datastore/queries";
 
-const HEADERS = { "Content-Type": "application/json" };
+const HEADERS = {
+  "Content-Type": "application/json",
+};
+
+const CACHE = {
+  "Cache-Control":
+    "public, max-age=60, stale-while-revalidate=30, stale-if-error=30",
+};
+
+const NO_CACHE_REVALIDATE = {
+  "Cache-Control": "no-cache",
+};
 
 export async function GET() {
   try {
@@ -8,7 +19,7 @@ export async function GET() {
 
     return new Response(JSON.stringify(tracksMetadata), {
       status: 200,
-      headers: HEADERS,
+      headers: { ...HEADERS, ...CACHE },
     });
   } catch (error: Error | unknown) {
     if (error instanceof Error) {
@@ -23,7 +34,7 @@ export async function GET() {
       }),
       {
         status: 500,
-        headers: HEADERS,
+        headers: { ...HEADERS, ...NO_CACHE_REVALIDATE },
       },
     );
   }
