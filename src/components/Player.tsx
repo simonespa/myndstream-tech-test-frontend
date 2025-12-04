@@ -1,16 +1,17 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, type RefObject } from "react";
 import { sendEvent } from "@/activities";
-import { EventType } from "@/analytics";
-import type { TrackMetadata } from "@/datastore/db";
+import { EventType } from "@/shared-types";
+import Image from "next/image";
+import type { Track } from "@/shared-types";
 
 interface ComponentProp {
-  tracks: Array<{
-    id: TrackMetadata["id"];
-    url: TrackMetadata["url"];
-  }>;
+  tracks: Array<Track>;
   userId: string;
+  audioRef: RefObject<HTMLAudioElement | null>;
+  currentTrack: Track | undefined;
+  setCurrentTrack: (track: Track) => void;
 }
 
 /**
@@ -19,10 +20,13 @@ interface ComponentProp {
  * @param tracks list of track sources to pass to the "src" property of the player
  * @returns the player component
  */
-export default function Player({ tracks, userId }: ComponentProp) {
-  // Reference to the audio element
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-
+export default function Player({
+  tracks,
+  userId,
+  audioRef,
+  currentTrack,
+  setCurrentTrack,
+}: ComponentProp) {
   // Reference to a "Set" data structure that tracks which milestones have been logged
   const milestonesRef = useRef(new Set());
 
@@ -124,8 +128,10 @@ export default function Player({ tracks, userId }: ComponentProp) {
 
     // If not found, start from the first track; otherwise advance to the next (wrap around)
     const nextIndex = currentIndex < 0 ? 0 : (currentIndex + 1) % tracks.length;
-    audio.src = tracks[nextIndex].url;
-    audio.dataset.trackId = tracks[nextIndex].id;
+    const nextTrack = tracks[nextIndex];
+    setCurrentTrack(nextTrack);
+    audio.src = nextTrack.url;
+    audio.dataset.trackId = nextTrack.id;
     audio.play();
   };
 
@@ -159,8 +165,32 @@ export default function Player({ tracks, userId }: ComponentProp) {
   const atLeastOneElement = tracks && tracks.length > 0;
 
   return (
-    <div className="p-4 border rounded shadow-md">
+    <div className="md:w-1/2 flex flex-col items-center justify-center gap-4">
+      <Image
+        id="track-image"
+        src={currentTrack?.image ? currentTrack.image : "/globe.svg"}
+        width={500}
+        height={500}
+        alt=""
+        className="w-40 h-40 rounded-lg object-cover shadow-md"
+      />
+
+      {atLeastOneElement ? (
+        <div className="text-center">
+          <div id="track-title" className="text-lg font-semibold">
+            {currentTrack?.title}
+          </div>
+          <div
+            id="track-artist"
+            className="text-sm text-gray-500 dark:text-gray-400"
+          >
+            {currentTrack?.artist}
+          </div>
+        </div>
+      ) : null}
+
       <audio
+        id="player-audio"
         src={atLeastOneElement ? tracks[0].url : undefined}
         data-track-id={atLeastOneElement ? tracks[0].id : undefined}
         ref={audioRef}

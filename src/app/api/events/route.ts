@@ -21,9 +21,12 @@ export async function POST(request: Request) {
     let responseStatus;
 
     const body = await request.json();
-    const fingerprint = getFingerprint(body);
+
+    console.log(body);
 
     if (isValidData(body)) {
+      const fingerprint = getFingerprint(body);
+
       if (eventStore.has(fingerprint)) {
         response = {
           action: "discarded",
