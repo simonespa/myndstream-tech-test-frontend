@@ -37,7 +37,9 @@ The default behaviour of both the linter and formatter is "fix" mode. Files will
 
 In addition to the manual command that can be run by the developer, an automatic trigger has been set to run the commands automatically on commit, using the `pre-commit` hook. This setup has been implemented by using `lint-staged` npm module to automate the command to be run and `husky` to manage the Git hooks. This allows code quality at PR level.
 
-## E2E Testing
+### Unit Testing
+
+### E2E Testing
 
 Downloading browsers
 
