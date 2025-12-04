@@ -43,13 +43,13 @@ In addition to the manual command that can be run by the developer, an automatic
 
 Downloading browsers
 
-```
+```bash
   pnpm exec playwright install
 ```
 
 Inside that directory, you can run several commands:
 
-```
+```bash
   pnpm exec playwright test
     Runs the end-to-end tests.
 
@@ -71,7 +71,7 @@ Inside that directory, you can run several commands:
 
 We suggest that you begin by typing:
 
-```
+```bash
     pnpm exec playwright test
 ```
 
