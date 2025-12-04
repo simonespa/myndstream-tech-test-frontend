@@ -23,25 +23,26 @@ The application has only one page that contains:
 The playlist is populated by fetching the `/api/tracks` endpoint. This endpoint returns the list of available tracks being provided for this test. The fetching happens client-side using [SWR](https://swr.vercel.app/), a library that provides:
 
 - caching
-- equest deduplication
+- request deduplication
 - data revalidation on focus or network recovery
 - retry on error
 
 An alternative I considered was [TanStack Query](https://tanstack.com/query/latest) (formerly React Query), but SWR was a better choice for this simple solution, and more lightweight.
 
-The user can play by either clicking on one of the tracks in the playlist, or by simply interacting with the player controls. In both cases, once the stream starts, the player will loop infinitely through all the availabl tracks, while sending the analytics to the backend.
+The user can play by either clicking on one of the tracks in the playlist, or by simply interacting with the player controls. In both cases, once the stream starts, the player will loop through all the available tracks until is stopped by the user. Any user interaction with the player is captured and sent to the analytics endpoint.
 
 ## Backend
 
-I defined 3 endpoints:
-
+The REST endpoints to retrieve tracks metadata;
 - `GET /api/tracks` to fetch all tracks from the playlist
 - `GET /api/tracks/:id` to fetch a single track given the ID (although not used in the project, is typical REST design to structure the API as resources)
+
+The analytics endpoint:
 - `POST /api/events` to post the user behaviours and track analytics
 
-All endpoints have error handling and caching. An endpoint worth discussing is the `/api/events` one, which can detect duplicate events and discard them (as per requirements). The deduplication mechanis is achieved by hashing the payload in order to create a unique fingerprint of the event. This fingerprint is saved in memory (in production could be a caching layer or an in-memory db for faster lookups) and looked up every time to decide whether the event has been already persisted.
+All endpoints provide error handling and caching. An endpoint worth discussing is the `/api/events` one, which can detect duplicate events and discard them (as per requirements). The de-duplication mechanism is achieved by hashing the payload in order to create a unique fingerprint of the event. This fingerprint is saved in memory (in production we could use a caching layer like Redis or an in-memory db for faster lookups) and queried every time a new request is received, to check whether the event has been already persisted or not.
 
-An additional feature is the data validation. This endpoint validates the payload against a JSON schema and discards the ones that don't follow the specification. This allows for further filtering, to avoid having to process malformed data. The endpoint returns a specific HTTP status for each of these cases for best practice, informing the client of the action taken. In this implementation, because I use `sendBeacon`, the client doesn't get or need the response by design, in a sort of send-and-forget mechanism.
+An additional feature is the data validation. This endpoint validates the payload against a JSON schema and discards the ones that don't follow the specification. This allows for further filtering, to avoid having to process malformed data. The endpoint returns a specific HTTP status for each of these cases for best practice, informing the client of the action taken. In this implementation, because I use `sendBeacon`, the client doesn't get or need the response by design, in a send-and-forget fashion.
 
 ## Analytics
 
@@ -57,9 +58,9 @@ export interface Event {
 }
 ```
 
-The "progress_X" events help understand the progress through the track while being played. However, since users can interact with the player controls and skip ahead or rewind, "progress_X" events alone don't give a full picture of engagement. Therefore, it's essential to log the `play` and `pause` events in combination with the `trackTime` and the `timestamp` to help understand user interaction and behaviour over time.
+The "progress_X" events help understand the progress through the track while being played. However, since users can interact with the player controls and skip ahead or rewind, "progress_X" events alone don't give a full picture of engagement. Therefore, I decided to add the `play` and `pause` events in combination with the `trackTime` and the `timestamp` to enhance the analysis of user interaction and behaviour over time.
 
-Because a user can skip forward or backward, I created a "smart reset" of the progress milestone, so that:
+Because a user can skip forward or backward, I created a "smart reset" mechanism of the progress milestone, so that:
 
 - If the user seeks BACKWARDS, the app allows previously reached milestones to be logged again.
 - If the user seeks FORWARDS, the app ensures that any milestones that were skipped over are not logged.
@@ -70,7 +71,7 @@ As requested, each event carries the track and user id.
 
 CAVEAT: the user id is passed statically in page as I decided not to implement the login page together with the authentication process and the session management for simplicity. An improvement would see the `userId` value being passed from the session.
 
-The `eventType` can assume one of the following values.
+The `eventType` can assume one of the following values: `play|pause|progress-0|progress-25|progress-50|progress-75|progress-100`.
 
 ### Play event
 
