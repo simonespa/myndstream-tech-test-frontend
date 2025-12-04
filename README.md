@@ -1,6 +1,6 @@
 # Myndstream Tech Test Frontend
 
-This is a [Next.js](https://nextjs.org) project built for the [Myndstream](https://myndstream.com/) technical test interview (read the [task](./task.md) for further details on the technical test).
+This is a [Next.js](https://nextjs.org) project built for the [Myndstream](https://myndstream.com/) technical test interview. Read the [task](./task.md) for details on the technical test and []
 
 ## Getting Started
 
@@ -33,7 +33,7 @@ This repo uses:
 
 ### Linting and Formatting
 
-The default behaviour of both the linter and formatter is "fix" mode. Files will be automatically linted and formatted when you run `pnpm lint` or `pnpm format`. There is also a "check" mode which can be run with `lint:check` or `format:check`. This mode is used by GitHub Workflow to validate the PRs (no fix is applied).
+The default behaviour of both the linter and formatter is "fix" mode. Files will be automatically linted and formatted when you run `pnpm lint` or `pnpm format`. There is also a "check" mode which can be run with `lint:check` or `format:check`. This mode is used by GitHub Workflow to validate the PRs. No fix are applied and the command will fail if an error is encountered.
 
 In addition to the manual command that can be run by the developer, an automatic trigger has been set to run the commands automatically on commit, using the `pre-commit` hook. This setup has been implemented by using `lint-staged` npm module to automate the command to be run and `husky` to manage the Git hooks. This allows code quality at PR level.
 
@@ -74,9 +74,5 @@ We suggest that you begin by typing:
 ```bash
     pnpm exec playwright test
 ```
-
-And check out the following files:
-  - ./tests/example.spec.ts - Example end-to-end test
-  - ./playwright.config.ts - Playwright Test configuration
 
 Visit https://playwright.dev/docs/intro for more information. ✨
