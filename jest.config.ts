@@ -30,9 +30,17 @@ const config: Config = {
 
   // A map from regular expressions to module names or to arrays of module names that allow to stub out resources with a single module
   moduleNameMapper: {
+    "^@/app/(.*)$": "<rootDir>/src/app/$1",
     "^@/components/(.*)$": "<rootDir>/src/components/$1",
     "^@/datastore/(.*)$": "<rootDir>/src/datastore/$1",
   },
+
+  // A list of paths to modules that run some code to configure or set up the testing framework
+  // before each test file in the suite is executed. Since setupFiles executes before the test framework
+  // is installed in the environment, this script file presents you the opportunity of running some code immediately
+  // after the test framework has been installed in the environment but before the test code itself.
+  // https://jestjs.io/docs/configuration#setupfilesafterenv-array
+  setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
 
   // The test environment that will be used for testing
   testEnvironment: "jsdom",

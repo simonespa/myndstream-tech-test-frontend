@@ -4,6 +4,7 @@
 .swc
 coverage
 node_modules
+playwright-report
 public
 out
 .gitattribute

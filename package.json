@@ -12,8 +12,8 @@
     "format:check": "prettier --check .",
     "test": "jest src",
     "test:watch": "jest --watch src",
-    "playwright": "playwright test",
-    "playwright:show": "playwright show-report",
+    "e2e-test": "playwright test",
+    "e2e-test:show": "playwright show-report",
     "prepare": "husky && playwright install --with-deps"
   },
   "keywords": [],
