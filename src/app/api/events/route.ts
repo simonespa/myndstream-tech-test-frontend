@@ -1,5 +1,18 @@
 import { getFingerprint, isValidData } from "@/util";
 
+const HEADERS = {
+  "Content-Type": "application/json",
+};
+
+const CACHE = {
+  "Cache-Control":
+    "public, max-age=60, stale-while-revalidate=30, stale-if-error=30",
+};
+
+const NO_CACHE_REVALIDATE = {
+  "Cache-Control": "no-cache",
+};
+
 const eventStore: Set<string> = new Set();
 
 export async function POST(request: Request) {
@@ -37,7 +50,7 @@ export async function POST(request: Request) {
 
     return new Response(JSON.stringify(response), {
       status: responseStatus,
-      headers: { "Content-Type": "application/json" },
+      headers: { ...HEADERS, ...CACHE },
     });
   } catch (error) {
     if (error instanceof Error) {
@@ -52,7 +65,7 @@ export async function POST(request: Request) {
       }),
       {
         status: 500,
-        headers: { "Content-Type": "application/json" },
+        headers: { ...HEADERS, ...NO_CACHE_REVALIDATE },
       },
     );
   }

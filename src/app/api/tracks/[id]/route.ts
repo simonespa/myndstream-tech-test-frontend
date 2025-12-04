@@ -1,7 +1,18 @@
 import { NextRequest } from "next/server";
 import { findTrackMetadataById } from "@/datastore/queries";
 
-const HEADERS = { "Content-Type": "application/json" };
+const HEADERS = {
+  "Content-Type": "application/json",
+};
+
+const CACHE = {
+  "Cache-Control":
+    "public, max-age=60, stale-while-revalidate=30, stale-if-error=30",
+};
+
+const NO_CACHE_REVALIDATE = {
+  "Cache-Control": "no-cache",
+};
 
 export async function GET(
   request: NextRequest,
@@ -15,13 +26,13 @@ export async function GET(
     if (!trackMetadata) {
       return new Response(JSON.stringify({ error: "Track not found" }), {
         status: 404,
-        headers: HEADERS,
+        headers: { ...HEADERS, ...CACHE },
       });
     }
 
     return new Response(JSON.stringify(trackMetadata), {
       status: 200,
-      headers: HEADERS,
+      headers: { ...HEADERS, ...CACHE },
     });
   } catch (error: Error | unknown) {
     if (error instanceof Error) {
@@ -39,7 +50,7 @@ export async function GET(
       }),
       {
         status: 500,
-        headers: HEADERS,
+        headers: { ...HEADERS, ...NO_CACHE_REVALIDATE },
       },
     );
   }
