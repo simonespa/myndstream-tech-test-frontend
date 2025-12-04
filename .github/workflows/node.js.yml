@@ -28,8 +28,13 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: "pnpm"
-      - run: pnpm install
-      - run: pnpm lint:check
-      - run: pnpm format:check
-      - run: pnpm test
-      - run: pnpm build # runs typescript check and builds the app
+      - name: Install dependencies
+        run: pnpm install
+      - name: Code linting
+        run: pnpm lint:check
+      - name: Code formatting
+        run: pnpm format:check
+      - name: Unit testing with Jest
+        run: pnpm test
+      - name: TypeScript type checking and Next.js app building
+        run: pnpm build
