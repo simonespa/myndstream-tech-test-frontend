@@ -10,9 +10,11 @@
     "lint:check": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "prepare": "husky"
+    "test": "jest src",
+    "test:watch": "jest --watch src",
+    "playwright": "playwright test",
+    "playwright:show": "playwright show-report",
+    "prepare": "husky && playwright install --with-deps"
   },
   "keywords": [],
   "author": {
