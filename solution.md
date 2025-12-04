@@ -1,3 +1,13 @@
+- [Myndstream Software Engineer Challenge (Solution)](#myndstream-software-engineer-challenge-solution)
+   * [Frontend](#frontend)
+   * [Backend](#backend)
+   * [Analytics](#analytics)
+      + [Play event](#play-event)
+      + [Pause event](#pause-event)
+      + [Progress X events](#progress-x-events)
+      + [Data Fetching: sendBeacon](#data-fetching-sendbeacon)
+   * [Improvements](#improvements)
+
 # Myndstream Software Engineer Challenge (Solution)
 
 I used Next.js to implement a full-stack solution, to provide a seamless frontend/backend interaction, using modern web technologies. The app is entirely written in Typescript, and the frontend is built using React, while for styling I decided to use TailwindCSS.

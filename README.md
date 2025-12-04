@@ -1,6 +1,23 @@
+- [Myndstream Tech Test Frontend](#myndstream-tech-test-frontend)
+   * [Task](#task)
+   * [Solution](#solution)
+   * [Getting Started](#getting-started)
+   * [Code Quality](#code-quality)
+      + [Linting and Formatting](#linting-and-formatting)
+      + [Testing](#testing)
+      + [Playwright: commands](#playwright-commands)
+
 # Myndstream Tech Test Frontend
 
-This is a [Next.js](https://nextjs.org) project built for the [Myndstream](https://myndstream.com/) technical test interview. Read the [task](./task.md) for details on the technical test and []
+This is a [Next.js](https://nextjs.org) project built for the [Myndstream](https://myndstream.com/) technical test interview.
+
+## Task
+
+Read [task](./task.md) for details on the technical test requirements.
+
+## Solution
+
+Read [solution](./solution.md) for details on my proposed solution.
 
 ## Getting Started
 
