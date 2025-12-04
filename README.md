@@ -27,9 +27,11 @@ Clone the repo, then install the dependencies
 pnpm install
 ```
 
-Once setup, you can either run the development server with `pnpm dev` or you can build the app first with `pnpm build` and then start the production version with `pnpm start`. In both cases, you finally open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+In development, run `pnpm dev` to start the server and see your changes automatically applied every time you edit any watched file.
 
-In development mode, the app will auto-update as you edit any file.
+In production, first build the app with `pnpm build` and then start the production bundle with `pnpm start`.
+
+In both cases, you can open [http://localhost:3000](http://localhost:3000) with your browser to use the app.
 
 ## Code Quality
 
